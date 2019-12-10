@@ -87,7 +87,7 @@ void postOrderTraverse(BiTree &T)
 		while(T->rightchild!=NULL){
 			T = T->rightchild; 
 		}
-		printf("最大值是： %c\n",T->data);
+		printf("最大值是： %c",T->data);
 	}
 
    }
