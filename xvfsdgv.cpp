@@ -1,74 +1,55 @@
-#include <iostream>
-using namespace std;
+#include <stdio.h>
 
-#define MAXSIZE 50
-typedef int KeyType;
+#define N 1000
+int arr[N];
 
-typedef  struct                     
-{ KeyType  key;                                             
-} ElemType;  
+/* 对长度为n的数组arr执行选择排序 */
+void selectionSort(int arr[], int n);
 
-typedef  struct
-{ ElemType   r[MAXSIZE+1]; 
-  int   length;
-} SqList;                      
+/* 打印长度为n的数组arr */
+void printArray(int arr[], int n);
 
-void Create(SqList &L)
-{ int i;
-  cin>>L.length;
-  for(i=1;i<=L.length;i++)
-     cin>>L.r[i].key;   
+void swap(int *xp, int *yp) {
+    int temp = *xp;
+    *xp = *yp;
+    *yp = temp;
 }
 
-void Output(SqList L)
-{ int i;
-  for(i=1;i<=L.length;i++)
-     cout<<L.r[i].key<<" ";
-  cout<<endl;;
+int main() {
+    int n, i;
+    scanf("%d", &n);
+    for (i = 0; i < n; ++i) {
+        scanf("%d", &arr[i]);
+    }
+    selectionSort(arr, n);
+    printArray(arr, n);
+    return 0;
+}
+/* 打印长度为n的数组arr */
+void printArray(int arr[], int n) {
+    int i;
+    for (i = 0; i < n; i++) {
+        printf("%d", arr[i]);
+        if (i < n - 1)  /* 下标0..n-2每个元素后面有个空格 */
+            printf(" ");/*下标n-1,也就是最后一个元素后面没有空格*/
+    }
+    printf("\n");/* 一行打印完后换行 */
 }
 
-int Partition(SqList &L,int low,int high);  
-void QuickSort(SqList &L, int low, int high);
-
-int main () 
-{  SqList L;  int low,high;
-   Create(L);
-   low=1; high=L.length;
-   QuickSort(L,low,high);
-   Output(L);
-   return 0;
-}
-int Partition(SqList &L,int low,int high)
+/* 你的代码将嵌在这里 */
+void selectionSort(int arr[], int n)
 {
-	int center = L.r[low].key;
-	L.r[low].key = L.r[high].key;
-	L.r[high].key = center;
-	return center;
-} 
-
-void QuickSort(SqList &L, int low, int high)
-{
-	int p,lo,hi;
-	if(low < high)
+	int i,j,min;
+	for(i=0;i<n-1;i++)
 	{
-		p = Partition(L, low, high);
-		lo = low-1; hi = high;
-		while(1)
+		min=i;
+		for(j=i+1;j<n;j++)
 		{
-			while(L.r[++lo].key<p);
-			while(L.r[--hi].key>p);
-			if(lo<hi) 
+			if(arr[j]<arr[min])
 			{
-				int t = L.r[lo].key;
-				L.r[lo].key = L.r[hi].key;
-				L.r[hi].key = t;
+				min=j;
 			}
-			else break; 
 		}
-		int t = L.r[lo].key;
-		L.r[lo].key = L.r[high].key;
-		L.r[high].key = t;
-		QuickSort(L, low, lo-1);
-		QuickSort(L, lo+1, high);
+	swap(&arr[i],&arr[min]);
 	}
-}
+ } 
