@@ -2,35 +2,38 @@
 #include <stdlib.h>
 
 typedef int ElementType;
-typedef struct LNode *PtrToLNode;
-struct LNode {
+typedef struct Node *PtrToNode;
+struct Node {
     ElementType Data;
-    PtrToLNode Next;
+    PtrToNode   Next;
 };
-typedef PtrToLNode List;
+typedef PtrToNode List;
 
 List Read(); /* 细节在此不表 */
+void Print( List L ); /* 细节在此不表 */
 
-int Length( List L );
+List Reverse( List L );
 
 int main()
 {
-    List L = Read();
-    printf("%d\n", Length(L));
+    List L1, L2;
+    L1 = Read();
+    L2 = Reverse(L1);
+    Print(L1);
+    Print(L2);
     return 0;
 }
 
 /* 你的代码将被嵌在这里 */
-int Length( List L ){
-	PtrToLNode head,t,p;
-	head=(struct LNode*)malloc(sizeof(struct LNode));
-	head=L;
-	int i=0;
-	while(head)
-	{
-		i++;
-		head=head->Next;
-	 } 
-	 return i;
-
-} 
+List Reverse( List L ) {
+  List p, q;
+  p = L;
+  L = NULL;
+  while (p) {
+    q = p;
+    p = p->Next;
+    q->Next = L;
+    L = q;
+  }
+  return L;
+}
