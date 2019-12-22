@@ -1,76 +1,55 @@
-#include <iostream>
-using namespace std;
+#include <stdio.h>
 
-template<class T>
-class MyArray{
-private:
-    T *data;
-    int size;
- 
-public:
-    MyArray(int s);
-    ~MyArray();
-    void sort();
-    void display();
-    bool check();
-};
- 
-template<class T>
-MyArray<T>::MyArray(int s){
-        size = s;
-        data = new T[size];//注意分配内存，main函数调用的时候只是动态的创建一个对象
-        for(int i=0;i<size;i++)
-            cin>>data[i];
-    }
- 
-template<class T>
-void MyArray<T>::display(){
-    for(int i=0;i<size;i++){
-        cout<<data[i];
-        if(i<size-1)
-            cout<<" ";
-    }
-    cout<<endl;
+#define N 1000
+int arr[N];
+
+/* 对长度为n的数组arr执行选择排序 */
+void selectionSort(int arr[], int n);
+
+/* 打印长度为n的数组arr */
+void printArray(int arr[], int n);
+
+void swap(int *xp, int *yp) {
+    int temp = *xp;
+    *xp = *yp;
+    *yp = temp;
 }
- 
-template<class T>
-void MyArray<T>::sort(){
-        for(int i=0;i<size-1;i++)
-            for(int j=0;j<size-i-1;j++)
-                if(data[j]>data[j+1]){
-                    T temp = data[j];
-                    data[j] = data[j+1];
-                    data[j+1] = temp;
-                }
+
+int main() {
+    int n, i;
+    scanf("%d", &n);
+    for (i = 0; i < n; ++i) {
+        scanf("%d", &arr[i]);
     }
-
-/* 请在这里填写答案 */
-
-template<class T>
-MyArray<T>::~MyArray(){ delete[] data;}
-
-template<class T>
-bool MyArray<T>::check(){
-    int i;
-    for(i=0;i<size-1;i++)
-        if(data[i]>data[i+1]) { cout<<"ERROR!"<<endl;return false;}
-    return true;
-}
-int main( )
-{
-    MyArray<int> *pI;
-    MyArray<float> *pF;
-    MyArray<char> *pC;
-    int ty, size;
-    cin>>ty;
-    while(ty>0){
-        cin>>size;
-        switch(ty){
-            case 1: pI = new MyArray<int>(size);   pI->sort(); pI->check(); pI->display(); delete pI; break;
-            case 2: pF = new MyArray<float>(size); pF->sort(); pF->check(); pF->display(); delete pF; break;
-            case 3: pC = new MyArray<char>(size);  pC->sort(); pC->check(); pC->display(); delete pC; break;
-        }
-        cin>>ty;
-    }
+    selectionSort(arr, n);
+    printArray(arr, n);
     return 0;
 }
+/* 打印长度为n的数组arr */
+void printArray(int arr[], int n) {
+    int i;
+    for (i = 0; i < n; i++) {
+        printf("%d", arr[i]);
+        if (i < n - 1)  /* 下标0..n-2每个元素后面有个空格 */
+            printf(" ");/*下标n-1,也就是最后一个元素后面没有空格*/
+    }
+    printf("\n");/* 一行打印完后换行 */
+}
+
+void selectionSort(int arr[], int n)
+{
+	int i,j,min;
+	for(i=0;i<n-1;i++)
+	{
+		min=i;
+		for(j=i+1;j<n;j++)
+		{
+			if(arr[j]<arr[min])
+			{
+				min=j;
+			}
+		}
+	swap(&arr[i],&arr[min]);
+	}
+ } 
+/* 你的代码将嵌在这里 */
